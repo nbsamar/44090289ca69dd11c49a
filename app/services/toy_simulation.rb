@@ -31,6 +31,10 @@ class ToySimulation
     @toy.face = command[2].to_s
   end
 
+  def final
+    @positions
+  end
+
   def show_location
     @positions << "#{@toy.x},#{@toy.y},#{@toy.face}"
   end
