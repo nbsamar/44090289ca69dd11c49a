@@ -13,9 +13,10 @@ class ToySimulation
       if command.include? 'PLACE'
         set_initial_position
       elsif command == 'REPORT'
-      #
+        show_location
+        @toy.save
       else
-      #
+        main_orders command
       end
     end
   end
@@ -32,6 +33,45 @@ class ToySimulation
 
   def show_location
     @positions << "#{@toy.x},#{@toy.y},#{@toy.face}"
+  end
+
+  def main_orders command
+    case command
+    when 'LEFT'
+      left
+    when 'RIGHT'
+      right
+    when 'MOVE'
+      move_ahead
+    end
+  end
+
+  def right
+    index = DIRECTIONS.index @toy.face
+    if index == 3
+      index = -1
+    else
+      index = index
+    end
+    @toy.face = DIRECTIONS[index + 1]
+  end
+
+  def left
+    index = DIRECTIONS.index @toy.face
+    @toy.face = DIRECTIONS[index - 1]
+  end
+
+  def move_ahead
+    case @toy.face
+    when 'NORTH'
+      @toy.y += 1 if @toy.y + 1 < 5
+    when 'SOUTH'
+      @toy.y -= 1 if @toy.y - 1 > 0
+    when 'EAST'
+      @toy.x += 1 if @toy.y + 1 < 5
+    when 'WEST'
+      @toy.x -= 1 if @toy.y - 1 > 0
+    end
   end
 
 end
